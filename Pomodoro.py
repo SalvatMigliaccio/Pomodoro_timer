@@ -54,9 +54,9 @@ class PomodoroTimer:
         self.tabs.add(self.tab3, text='LongBreak')
 
         self.pomodoro_counter = 0
-        self.pomodoro_duration = 2 # 25 minutes in seconds
+        self.pomodoro_duration = 25 * 60  # 25 minutes in seconds
         self.short_break_duration = 5 * 60  # 5 minutes in seconds
-        self.long_break_duration = 15 * 60 # 15 minutes in seconds
+        self.long_break_duration = 15 * 60  # 15 minutes in seconds
         self.current_timer = None
         self.stopped = False
         
