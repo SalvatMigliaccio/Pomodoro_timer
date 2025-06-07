@@ -1,8 +1,7 @@
 #Pomodoro App code for Pythonista 3
 import time
-#import sound
+from PIL import Image, ImageTk, ImageSequence
 import datetime as dt
-
 import tkinter as tk
 from tkinter import messagebox, ttk
 import winsound
@@ -15,6 +14,17 @@ class PomodoroTimer:
         self.root.title("Pomodoro Timer")
         self.root.tk.call('wm', 'iconphoto', self.root._w, tk.PhotoImage(file='pomodoro_icon.png'))
         self.root.resizable(True, True)
+        
+        self.bg_label = tk.Label(self.root)
+        self.bg_label.place(relwidth=1, relheight=1, x=0, y=0)
+        self.frames = [ImageTk.PhotoImage(img) for img in ImageSequence.Iterator(Image.open('U3xO.gif'))]
+        
+        def update_background(counter=0):
+            frame = self.frames[counter % len(self.frames)]
+            self.bg_label.config(image=frame)
+            self.root.after(100, update_background, counter + 1)
+
+        update_background()
 
         self.s = ttk.Style()
         self.s.theme_use('clam')
@@ -53,16 +63,21 @@ class PomodoroTimer:
         self.tabs.add(self.tab2, text='ShortBreak')
         self.tabs.add(self.tab3, text='LongBreak')
 
+        self.tabs.tkraise()
+        self.grid_layout.tkraise()
+
         self.pomodoro_counter = 0
-        self.pomodoro_duration = 25 * 60  # 25 minutes in seconds
-        self.short_break_duration = 5 * 60  # 5 minutes in seconds
+        self.pomodoro_duration = 50 * 60  # 50 minutes in seconds
+        self.short_break_duration = 10 * 60  # 10 minutes in seconds
         self.long_break_duration = 15 * 60  # 15 minutes in seconds
         self.current_timer = None
         self.stopped = False
         
         self.root.mainloop()
 
-        
+
+
+    
     def start_timer(self):
        self.stopped = False
        timer_id = self.tabs.index(self.tabs.select()) + 1
